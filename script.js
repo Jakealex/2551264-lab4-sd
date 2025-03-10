@@ -11,7 +11,7 @@ async function fetchCountryData() {
     const countryInfoSection = document.getElementById("country-info");
     const borderingCountriesSection = document.getElementById("bordering-countries");
 
-    // Clear previous results
+
     countryInfoSection.innerHTML = "";
     borderingCountriesSection.innerHTML = "";
 
@@ -25,14 +25,13 @@ async function fetchCountryData() {
         const countryData = await response.json();
         const country = countryData[0];
 
-        // Extract required data
         const capital = country.capital ? country.capital[0] : "No capital available";
         const population = country.population.toLocaleString();
         const region = country.region;
         const flagUrl = country.flags.svg || country.flags.png;
         const borders = country.borders || [];
 
-        // Display country info
+       
         countryInfoSection.innerHTML = `
             <h2>${country.name.common}</h2>
             <p><strong>Capital:</strong> ${capital}</p>
@@ -41,7 +40,7 @@ async function fetchCountryData() {
             <img src="${flagUrl}" alt="Flag of ${country.name.common}" width="200">
         `;
 
-        // Fetch and display bordering countries
+      
         if (borders.length > 0) {
             const borderPromises = borders.map(code =>
                 fetch(https://restcountries.com/v3.1/alpha/${code})
