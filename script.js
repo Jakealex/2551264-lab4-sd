@@ -1,4 +1,3 @@
-
 document.getElementById("search-button").addEventListener("click", fetchCountryData);
 
 async function fetchCountryData() {
@@ -11,13 +10,12 @@ async function fetchCountryData() {
     const countryInfoSection = document.getElementById("country-info");
     const borderingCountriesSection = document.getElementById("bordering-countries");
 
-
     countryInfoSection.innerHTML = "";
     borderingCountriesSection.innerHTML = "";
 
     try {
-        const response = await fetch(https://restcountries.com/v3.1/name/${countryName}?fullText=true);
-        
+        const response = await fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`);
+
         if (!response.ok) {
             throw new Error("Country not found.");
         }
@@ -31,7 +29,6 @@ async function fetchCountryData() {
         const flagUrl = country.flags.svg || country.flags.png;
         const borders = country.borders || [];
 
-       
         countryInfoSection.innerHTML = `
             <h2>${country.name.common}</h2>
             <p><strong>Capital:</strong> ${capital}</p>
@@ -40,10 +37,9 @@ async function fetchCountryData() {
             <img src="${flagUrl}" alt="Flag of ${country.name.common}" width="200">
         `;
 
-      
         if (borders.length > 0) {
             const borderPromises = borders.map(code =>
-                fetch(https://restcountries.com/v3.1/alpha/${code})
+                fetch(`https://restcountries.com/v3.1/alpha/${code}`)
                     .then(res => res.json())
                     .then(data => ({
                         name: data[0].name.common,
@@ -53,7 +49,7 @@ async function fetchCountryData() {
 
             const borderingCountries = await Promise.all(borderPromises);
 
-            borderingCountriesSection.innerHTML = <h3>Bordering Countries:</h3>;
+            borderingCountriesSection.innerHTML = `<h3>Bordering Countries:</h3>`;
             borderingCountries.forEach(country => {
                 borderingCountriesSection.innerHTML += `
                     <p>${country.name}</p>
@@ -65,7 +61,6 @@ async function fetchCountryData() {
         }
 
     } catch (error) {
-        countryInfoSection.innerHTML = <p style="color: red;">Error: ${error.message}</p>;
+        countryInfoSection.innerHTML = `<p style="color: red;">Error: ${error.message}</p>`;
     }
 }
-
